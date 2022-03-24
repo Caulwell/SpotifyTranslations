@@ -4,15 +4,64 @@ import SpotifyWebApi from "spotify-web-api-node";
 import TrackSearchResult from "./TrackSearchResult";
 import Player from "./Player";
 import axios from "axios";
+import styled from "styled-components";
 
 
 const spotifyApi = new SpotifyWebApi({
     clientId: "82527983226848fc8ce7ebeb89e29f05"
 });
 
+const StyledDashboard = styled.div`
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1rem;
+    box-sizing: border-box;
+`;
+
+const StyledHeader = styled.div`
+    display: flex;
+    justify-content: space-between;
+`;
 
 
-export default function Dashboard({code}){
+const StyledSearchBar = styled.input`
+    padding: 0.5rem;
+    flex-grow: 2;
+    font-size: 2rem;
+    border: none;
+    background: ${props => props.theme.body};
+    color: ${props => props.theme.text};
+    &:focus {
+        outline: none;
+    }
+`;
+
+const StyledButton = styled.button`
+    background: ${props => props.theme.body};
+    color: ${props => props.theme.text};
+    margin-left: 2rem;
+`;
+
+const StyledLyrics = styled.div`
+    white-space: pre;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    overflow-y: auto;
+`;
+
+const StyledSearchResults = styled.div`
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+`;
+
+
+
+export default function Dashboard({code, toggleTheme, isDarkTheme}){
 
     const accessToken = useAuth(code);
     const [search, setSearch] = useState("");
@@ -77,17 +126,33 @@ export default function Dashboard({code}){
 
 
     return (
-        <div>
-            <input 
-                type="text" 
-                placeholder="Search Songs/Artists"
-                value={search}
-                onChange={e => setSearch(e.target.value)}
-                >
+        <StyledDashboard>
+            <StyledHeader>
+                <StyledSearchBar 
+                    type="text" 
+                    placeholder="Search Songs/Artists..."
+                    value={search}
+                    onChange={e => setSearch(e.target.value)}
+                    >
 
-            </input>
-            <div>
-                {searchResults.map(track => {
+                </StyledSearchBar>
+                <StyledButton onClick={toggleTheme}>
+                    {isDarkTheme ?
+                        <span aria-label="Light mode" role="img">🌞</span> :
+                        <span aria-label="Dark mode" role="img">🌜</span>}
+                </StyledButton>
+               
+            </StyledHeader>
+            
+            {searchResults.length === 0 ? 
+                <StyledLyrics >
+                        {lyrics}
+                    </StyledLyrics>
+            
+            : 
+
+            <StyledSearchResults>
+            {searchResults.map(track => {
                     return (
                         <TrackSearchResult
                             track={track}
@@ -96,15 +161,12 @@ export default function Dashboard({code}){
                         />
                     )
                 })}
-                {searchResults.length === 0 && 
-                    <div style={{whiteSpace: "pre"}}>
-                        {lyrics}
-                    </div>
-                }
-            </div>
+
+            </StyledSearchResults>
+            }
             <div>
                 <Player accessToken={accessToken} trackUri={playingTrack?.uri}/>
             </div>
-        </div>
+        </StyledDashboard>
     )
 }
