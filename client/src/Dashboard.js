@@ -47,9 +47,17 @@ const StyledButton = styled.button`
 const StyledLyrics = styled.div`
     white-space: pre;
     display: flex;
-    justify-content: center;
-    text-align: center;
+    justify-content: space-around;
     overflow-y: auto;
+    padding: 1rem 5rem;
+`;
+
+const StyledOriginal = styled.div`
+    text-align: right;
+`;
+
+const StyledTranslation = styled.div`
+    text-align: left;
 `;
 
 const StyledSearchResults = styled.div`
@@ -150,12 +158,12 @@ export default function Dashboard({code, toggleTheme, isDarkTheme}){
             
             {searchResults.length === 0 ? 
                 <StyledLyrics>
-                        <div>
+                        <StyledOriginal>
                         {lyrics}
-                        </div>
-                        <div>
+                        </StyledOriginal>
+                        <StyledTranslation>
                         {translation}
-                        </div>
+                        </StyledTranslation>
                     </StyledLyrics>
             
             : 
