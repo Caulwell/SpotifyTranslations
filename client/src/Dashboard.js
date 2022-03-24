@@ -68,13 +68,16 @@ export default function Dashboard({code, toggleTheme, isDarkTheme}){
     const [searchResults, setSearchResults] = useState([]);
     const [playingTrack, setPlayingTrack] = useState();
     const [lyrics, setLyrics] = useState("");
+    const [translation, setTranslation] = useState("");
 
     const chooseTrack = (track) => {
         setPlayingTrack(track);
         setSearch("");
         setLyrics("");
+        setTranslation("");
     };
 
+    // get lyrics
     useEffect(() => {
         if(!playingTrack) return;
         axios.get("http://localhost:3001/lyrics", {
@@ -85,6 +88,7 @@ export default function Dashboard({code, toggleTheme, isDarkTheme}){
         })
         .then(res => {
             setLyrics(res.data.lyrics);
+            setTranslation(res.data.translation);
         });
     },[playingTrack]);
 
@@ -145,8 +149,13 @@ export default function Dashboard({code, toggleTheme, isDarkTheme}){
             </StyledHeader>
             
             {searchResults.length === 0 ? 
-                <StyledLyrics >
+                <StyledLyrics>
+                        <div>
                         {lyrics}
+                        </div>
+                        <div>
+                        {translation}
+                        </div>
                     </StyledLyrics>
             
             : 

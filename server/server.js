@@ -4,6 +4,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const lyricsFinder = require("lyrics-finder");
 const SpotifyWebApi = require("spotify-web-api-node");
+const translate = require("@vitalets/google-translate-api");
 
 
 
@@ -63,7 +64,11 @@ app.post("/login", (req, res) => {
 
 app.get("/lyrics", async (req, res) => {
     const lyrics = (await lyricsFinder(req.query.artist, req.query.track)) || "No Lyrics Fouund";
-    res.json({lyrics});
+    translate(lyrics, {to: "en"})
+        .then(response => {
+            res.json({lyrics: lyrics, translation: response.text});
+        });
+        
 });
 
 
