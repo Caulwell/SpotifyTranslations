@@ -45,19 +45,22 @@ const StyledButton = styled.button`
 `;
 
 const StyledLyrics = styled.div`
-    white-space: pre;
     display: flex;
-    justify-content: space-around;
+    flex-direction: column;
+    align-items: center;
     overflow-y: auto;
     padding: 1rem 5rem;
 `;
 
-const StyledOriginal = styled.div`
-    text-align: right;
-`;
-
-const StyledTranslation = styled.div`
-    text-align: left;
+const StyledLyric = styled.div`
+    padding: 0.4rem;
+    margin-bottom: 0.2rem;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    &:hover{
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+        cursor: pointer;
+    }
 `;
 
 const StyledSearchResults = styled.div`
@@ -76,13 +79,19 @@ export default function Dashboard({code, toggleTheme, isDarkTheme}){
     const [searchResults, setSearchResults] = useState([]);
     const [playingTrack, setPlayingTrack] = useState();
     const [lyrics, setLyrics] = useState("");
-    const [translation, setTranslation] = useState("");
+
+    const [selectedLine, setSelectedLine] = useState("");
+    const [isLineMode, setIsLineMode] = useState(false);
 
     const chooseTrack = (track) => {
         setPlayingTrack(track);
         setSearch("");
         setLyrics("");
-        setTranslation("");
+    };
+
+    const handleSelectLyric = (e) => {
+        setSelectedLine(lyrics[e.target.getAttribute("name")]);
+        setIsLineMode(true);
     };
 
     // get lyrics
@@ -96,7 +105,6 @@ export default function Dashboard({code, toggleTheme, isDarkTheme}){
         })
         .then(res => {
             setLyrics(res.data.lyrics);
-            setTranslation(res.data.translation);
         });
     },[playingTrack]);
 
@@ -155,15 +163,23 @@ export default function Dashboard({code, toggleTheme, isDarkTheme}){
                 </StyledButton>
                
             </StyledHeader>
+
+            {isLineMode ? 
             
-            {searchResults.length === 0 ? 
+            <div>
+                <h1>{selectedLine.original + selectedLine.translation}</h1>
+            </div>
+            
+            :
+            
+            searchResults.length === 0 && lyrics ? 
                 <StyledLyrics>
-                        <StyledOriginal>
-                        {lyrics}
-                        </StyledOriginal>
-                        <StyledTranslation>
-                        {translation}
-                        </StyledTranslation>
+                        {lyrics.map((line, index) => {
+                            if(!line.original) return;
+                            return (
+                                <StyledLyric name={index} onClick={e => handleSelectLyric(e)}>{line.original + " " + line.translation}</StyledLyric>
+                            )
+                        })}
                     </StyledLyrics>
             
             : 
@@ -181,6 +197,9 @@ export default function Dashboard({code, toggleTheme, isDarkTheme}){
 
             </StyledSearchResults>
             }
+            
+            
+           
             <div>
                 <Player accessToken={accessToken} trackUri={playingTrack?.uri}/>
             </div>

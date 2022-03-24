@@ -18,9 +18,6 @@ const Button = styled.a`
 
 export default function Login(){
 
-
-   
-
     return (
 
         <LoginPage>

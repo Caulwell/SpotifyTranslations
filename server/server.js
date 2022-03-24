@@ -55,7 +55,7 @@ app.post("/login", (req, res) => {
                 accessToken: data.body.access_token,
                 refreshToken: data.body.refresh_token,
                 expiresIn: data.body.expires_in
-            })
+            });
         }).catch(() => {
             res.sendStatus(400);
         });
@@ -66,7 +66,19 @@ app.get("/lyrics", async (req, res) => {
     const lyrics = (await lyricsFinder(req.query.artist, req.query.track)) || "No Lyrics Fouund";
     translate(lyrics, {to: "en"})
         .then(response => {
-            res.json({lyrics: lyrics, translation: response.text});
+            const lyricsArray = lyrics.split("\n");
+            const translationArray = response.text.split("\n");
+
+            lyricsArray.forEach((line, index) => {
+                if(lyricsArray[index] === translationArray[index].trim()){
+                    lyricsArray[index] = {original: line, translation: ""};
+                } else {
+                    lyricsArray[index] = {original: line, translation: translationArray[index].trim()};
+                }
+                
+            });
+
+            res.json({lyrics: lyricsArray});
         });
         
 });
