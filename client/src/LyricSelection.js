@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 
@@ -27,12 +28,25 @@ export default function LyricSelection({selectedLine,}){
 
     useEffect(() =>{
 
+        if(!selectedLine) return;
         const splitOriginal = selectedLine.original.split(" ");
         setWords(splitOriginal);
 
 
     }, [selectedLine]);
 
+    
+    const handleGetDefinition = e => {
+        const word = e.currentTarget.getAttribute("name");
+        axios.get("http://localhost:3001/definition", {
+            params: {
+                word
+            }
+        })
+        .then(res => {
+            console.log(res);
+        });
+    };
 
 
     return (
@@ -47,7 +61,7 @@ export default function LyricSelection({selectedLine,}){
             <WordContainer>
                 {words.map(word => {
                     return (
-                        <WordButton>{word}</WordButton>
+                        <WordButton name={word} onClick={e => handleGetDefinition(e)}>{word}</WordButton>
                     )
                 })}
             </WordContainer>

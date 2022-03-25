@@ -69,7 +69,6 @@ export default function Dashboard({code, toggleTheme, isDarkTheme}){
         })
         .then(res => {
             setLyrics(res.data.lyrics);
-            
             setSelectedLine(res.data.lyrics[0]);
         });
     },[playingTrack]);

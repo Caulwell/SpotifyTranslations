@@ -1,5 +1,6 @@
 require("dotenv").config();
 const express = require("express");
+const axios = require("axios");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const lyricsFinder = require("lyrics-finder");
@@ -81,6 +82,29 @@ app.get("/lyrics", async (req, res) => {
             res.json({lyrics: lyricsArray});
         });
         
+});
+
+app.get("/definition",  (req, res) => {
+
+    const word = req.query.word;
+    const fields = "pronunciations";
+    const strictMatch = "false";
+
+    const url = `${process.env.OXFORD_BASE_URL}${word}`;
+
+      axios.get(url, {
+        headers: {
+            'app_id': process.env.OXFORD_ID,
+            'app_key': process.env.OXFORD_KEY
+          }
+      })
+        .then(response => {
+            console.log(response.data.results[0].lexicalEntries[0].entries);
+        })
+        .catch(err => {
+            console.log(err);
+        });
+
 });
 
 
