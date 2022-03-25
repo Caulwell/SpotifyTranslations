@@ -5,6 +5,9 @@ import TrackSearchResult from "./TrackSearchResult";
 import Player from "./Player";
 import axios from "axios";
 import styled from "styled-components";
+import LyricsContainer from "./LyricsContainer";
+import Header from "./Header";
+import LyricSelection from "./LyricSelection";
 
 
 const spotifyApi = new SpotifyWebApi({
@@ -20,48 +23,11 @@ const StyledDashboard = styled.div`
     box-sizing: border-box;
 `;
 
-const StyledHeader = styled.div`
+const StyledMain = styled.main`
     display: flex;
-    justify-content: space-between;
+    max-height: 80vh;
 `;
 
-
-const StyledSearchBar = styled.input`
-    padding: 0.5rem;
-    flex-grow: 2;
-    font-size: 2rem;
-    border: none;
-    background: ${props => props.theme.body};
-    color: ${props => props.theme.text};
-    &:focus {
-        outline: none;
-    }
-`;
-
-const StyledButton = styled.button`
-    background: ${props => props.theme.body};
-    color: ${props => props.theme.text};
-    margin-left: 2rem;
-`;
-
-const StyledLyrics = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    overflow-y: auto;
-    padding: 1rem 5rem;
-`;
-
-const StyledLyric = styled.div`
-    padding: 0.4rem;
-    margin-bottom: 0.2rem;
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-    transition: 0.3s;
-    &:hover{
-        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-        cursor: pointer;
-    }
-`;
 
 const StyledSearchResults = styled.div`
     margin: 0 auto;
@@ -81,7 +47,6 @@ export default function Dashboard({code, toggleTheme, isDarkTheme}){
     const [lyrics, setLyrics] = useState("");
 
     const [selectedLine, setSelectedLine] = useState("");
-    const [isLineMode, setIsLineMode] = useState(false);
 
     const chooseTrack = (track) => {
         setPlayingTrack(track);
@@ -90,8 +55,7 @@ export default function Dashboard({code, toggleTheme, isDarkTheme}){
     };
 
     const handleSelectLyric = (e) => {
-        setSelectedLine(lyrics[e.target.getAttribute("name")]);
-        setIsLineMode(true);
+        setSelectedLine(lyrics[e.currentTarget.getAttribute("name")]);
     };
 
     // get lyrics
@@ -105,6 +69,8 @@ export default function Dashboard({code, toggleTheme, isDarkTheme}){
         })
         .then(res => {
             setLyrics(res.data.lyrics);
+            
+            setSelectedLine(res.data.lyrics[0]);
         });
     },[playingTrack]);
 
@@ -147,43 +113,21 @@ export default function Dashboard({code, toggleTheme, isDarkTheme}){
 
     return (
         <StyledDashboard>
-            <StyledHeader>
-                <StyledSearchBar 
-                    type="text" 
-                    placeholder="Search Songs/Artists..."
-                    value={search}
-                    onChange={e => setSearch(e.target.value)}
-                    >
+            <Header toggleTheme={toggleTheme} isDarkTheme={isDarkTheme} setSearch={setSearch} search={search}/>
+            
+            {/* song selected and lyrics retrieved from server and shown */}
+            {searchResults.length === 0 && lyrics ? 
 
-                </StyledSearchBar>
-                <StyledButton onClick={toggleTheme}>
-                    {isDarkTheme ?
-                        <span aria-label="Light mode" role="img">🌞</span> :
-                        <span aria-label="Dark mode" role="img">🌜</span>}
-                </StyledButton>
-               
-            </StyledHeader>
 
-            {isLineMode ? 
-            
-            <div>
-                <h1>{selectedLine.original + selectedLine.translation}</h1>
-            </div>
-            
-            :
-            
-            searchResults.length === 0 && lyrics ? 
-                <StyledLyrics>
-                        {lyrics.map((line, index) => {
-                            if(!line.original) return;
-                            return (
-                                <StyledLyric name={index} onClick={e => handleSelectLyric(e)}>{line.original + " " + line.translation}</StyledLyric>
-                            )
-                        })}
-                    </StyledLyrics>
-            
+                <StyledMain>
+                    <LyricsContainer lyrics={lyrics} handleSelectLyric={handleSelectLyric}/>
+                    <LyricSelection selectedLine={selectedLine}/>
+                </StyledMain>
+
+
             : 
-
+            
+            // search is active and search results are rendered
             <StyledSearchResults>
             {searchResults.map(track => {
                     return (
@@ -194,8 +138,9 @@ export default function Dashboard({code, toggleTheme, isDarkTheme}){
                         />
                     )
                 })}
-
             </StyledSearchResults>
+
+
             }
             
             
