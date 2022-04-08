@@ -3,7 +3,7 @@ const express = require("express");
 const axios = require("axios");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const lyricsFinder = require("lyrics-finder");
+const genius = require('genius-lyrics-api');
 const SpotifyWebApi = require("spotify-web-api-node");
 const translate = require("@vitalets/google-translate-api");
 
@@ -64,7 +64,17 @@ app.post("/login", (req, res) => {
 });
 
 app.get("/lyrics", async (req, res) => {
-    const lyrics = (await lyricsFinder(req.query.artist, req.query.track)) || "No Lyrics Fouund";
+
+    const options = {
+        apiKey: process.env.GENIUS_TOKEN,
+        title: req.query.track,
+        artist: req.query.artist,
+        optimizeQuery: true
+    };
+
+    const lyrics = (await genius.getLyrics(options)) || "No Lyrics Found";
+
+
     translate(lyrics, {to: "en"})
         .then(response => {
             const lyricsArray = lyrics.split("\n");
