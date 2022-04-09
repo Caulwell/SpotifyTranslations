@@ -24,6 +24,7 @@ const WordButton = styled.button`
 export default function LyricSelection({selectedLine,}){
 
     const [words, setWords] = useState([]);
+    const [defintions, setDefinitions] = useState({});
 
 
     useEffect(() =>{
@@ -44,7 +45,8 @@ export default function LyricSelection({selectedLine,}){
             }
         })
         .then(res => {
-            console.log(res);
+            console.log(res.data);
+            setDefinitions(res.data);
         });
     };
 

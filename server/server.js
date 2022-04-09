@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 const genius = require('genius-lyrics-api');
 const SpotifyWebApi = require("spotify-web-api-node");
 const translate = require("@vitalets/google-translate-api");
+const scraper = require("./scraper.js");
 
 
 
@@ -80,40 +81,30 @@ app.get("/lyrics", async (req, res) => {
             const lyricsArray = lyrics.split("\n");
             const translationArray = response.text.split("\n");
 
-            lyricsArray.forEach((line, index) => {
-                if(lyricsArray[index] === translationArray[index].trim()){
-                    lyricsArray[index] = {original: line, translation: ""};
+            const trimmedLyrics = lyricsArray.map((line, index) => {
+                if(line === translationArray[index].trim()){
+                    return {original: line, translation: ""};
                 } else {
-                    lyricsArray[index] = {original: line, translation: translationArray[index].trim()};
+                    return {original: line, translation: translationArray[index].trim()};
                 }
-                
             });
 
-            res.json({lyrics: lyricsArray});
+            const filteredSubheadings = trimmedLyrics.filter(line => {
+                return line.original.charAt(0) !== '[';
+            });
+
+            res.json({lyrics: filteredSubheadings});
         });
         
 });
 
-app.get("/definition",  (req, res) => {
+app.get("/definition", async (req, res) => {
 
     const word = req.query.word;
-    const fields = "pronunciations";
-    const strictMatch = "false";
 
-    const url = `${process.env.OXFORD_BASE_URL}${word}`;
+    const definitions = await scraper.getDefinitions(word);
 
-      axios.get(url, {
-        headers: {
-            'app_id': process.env.OXFORD_ID,
-            'app_key': process.env.OXFORD_KEY
-          }
-      })
-        .then(response => {
-            console.log(response.data.results[0].lexicalEntries[0].entries);
-        })
-        .catch(err => {
-            console.log(err);
-        });
+    res.json(definitions);
 
 });
 
