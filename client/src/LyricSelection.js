@@ -24,21 +24,20 @@ const WordContainer = styled.div`
 
 const WordButton = styled.button`
 
-    ${({ first }) => first && `
-        border-top-left-radius: 7px;
-        border-bottom-left-radius: 7px;
-  `}
-  ${({ last }) => last && `
-        border-top-right-radius: 7px;
-        border-bottom-right-radius: 7px;
-  `}
-  ${({ selected }) => selected && `
-        background-color: lime;
-  `}
-
-
+    border: none;
+    cursor: pointer;
     width: 6rem;
     height: 2rem;
+
+    color: ${props => props.theme.buttonText};
+    background-color: ${props => props.selected ? props.theme.flair2 : props.theme.flair1};
+
+    border-top-left-radius: ${props => props.first ? "7px" : 0};
+    border-bottom-left-radius: ${props => props.first ? "7px" : 0};
+    border-bottom-right-radius: ${props => props.last ? "7px" : 0};
+    border-top-right-radius: ${props => props.last ? "7px" : 0};
+    
+    
 `;
 
 const DefinitionContainer = styled.div`
@@ -82,6 +81,8 @@ export default function LyricSelection({selectedLine,}){
     useEffect(() =>{
 
         if(!selectedLine) return;
+
+        // split sentence to words with punctuation removed
         const splitOriginal = selectedLine.original.split(" ").map(word => {
             return word.replace(/[-'`~!¡@#$%^&*()_|+=¿?;:'",.<>\{\}\[\]\\\/]/gi, '');
         });
@@ -89,13 +90,17 @@ export default function LyricSelection({selectedLine,}){
     }, [selectedLine]);
 
     useEffect(() => {
-        words.length && setSelectedWord(words[0])
+        words.length && setSelectedWord(words[0]);
     }, [words]);
+
 
     useEffect(() => {
         if(selectedWord === "") return;
+        setDefinitions({});
 
-        let word = selectedWord;
+        // replace diacritics for dictionary scraping
+        let word = selectedWord.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
         axios.get("http://localhost:3001/definition", {
             params: {
                 word
@@ -103,7 +108,6 @@ export default function LyricSelection({selectedLine,}){
         })
         .then(res => {
             setDefinitions(res.data);
-            console.log(res.data);
         });
     }, [selectedWord]);
 
@@ -128,7 +132,7 @@ export default function LyricSelection({selectedLine,}){
             <WordContainer>
                 {words.map((word, index) => {
                     return (
-                        <WordButton name={word} selected={word === selectedWord} last={index === words.length-1} first ={index === 0} onClick={e => handleGetDefinition(e)}>{word}</WordButton>
+                        <WordButton key={`button${index}`} name={word} selected={word === selectedWord} last={index === words.length-1} first ={index === 0} onClick={e => handleGetDefinition(e)}>{word}</WordButton>
                     )
                 })}
             </WordContainer>
@@ -147,9 +151,9 @@ export default function LyricSelection({selectedLine,}){
                     }
 
                     <DefinitionsList>
-                        {definitions.definitions && definitions.definitions.map(definition => {
+                        {definitions.definitions && definitions.definitions.map((definition, index) => {
                             return (
-                                <Definition>
+                                <Definition key={`definition${index}`}>
                                     <DefinitionTitle>
                                     {definition.translations && <div><strong>{definition.translations.map(string => (string.charAt(0).toUpperCase() +string.substr(1))).join(" | ")}</strong></div>}
                                     {definition.domain &&<div>  Domain: {definition.domain}</div>}
@@ -170,6 +174,8 @@ export default function LyricSelection({selectedLine,}){
             </DefinitionContainer>
         </>
         }
+
+        {definitions.wordType === "" && "No definitions available for this word"}
        
     </StyledSelectedLyric>
 

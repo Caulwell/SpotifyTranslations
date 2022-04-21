@@ -10,11 +10,18 @@ export const GlobalStyles = createGlobalStyle`
 `;
 
 export const lightTheme = {
-  body: '#f1f1f1',
-  text: '#121620'
+  body: '#fff',
+  text: '#131515',
+  buttonText: "#E9EFC0",
+  flair1: "#48D59B",
+  flair2: "#26A671",
+  
 };
 
 export const darkTheme = {
-  body: '#121620',
-  text: '#f1f1f1'
+  body: '#131515',
+  text: '#FBF5F3',
+  buttonText: '#FBF5F3',
+  flair1: "#48D59B",
+  flair2: "#26A671",
 };

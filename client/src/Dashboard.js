@@ -15,6 +15,7 @@ const spotifyApi = new SpotifyWebApi({
 });
 
 const StyledDashboard = styled.div`
+    color: ${props => props.theme.text};
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -70,7 +71,6 @@ export default function Dashboard({code, toggleTheme, isDarkTheme}){
         })
         .then(res => {
             setLyrics(res.data.lyrics);
-            console.log(res.data.lyrics);
             setSelectedLine(res.data.lyrics[0]);
         });
     },[playingTrack]);

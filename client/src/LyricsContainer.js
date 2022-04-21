@@ -34,7 +34,7 @@ export default function LyricsContainer({lyrics, handleSelectLyric}){
             {lyrics.map((line, index) => {
                 if(!line.original) return null;
                 return (
-                    <StyledLyric name={index} onClick={e => handleSelectLyric(e)}>
+                    <StyledLyric key={`lyric${index}`} name={index} onClick={e => handleSelectLyric(e)}>
                         <div>
                             {line.original}
                         </div>
