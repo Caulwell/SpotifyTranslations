@@ -37,7 +37,7 @@ const WordButton = styled.button`
   `}
 
 
-    width: 4rem;
+    width: 6rem;
     height: 2rem;
 `;
 
@@ -52,6 +52,8 @@ const DefinitionsList = styled.div`
 `;
 
 const Definition = styled.div`
+    border-top: 1px solid grey;
+    padding-top: 1rem;
     height: 8rem;
     width: 100%;
     display: flex;
@@ -80,16 +82,20 @@ export default function LyricSelection({selectedLine,}){
     useEffect(() =>{
 
         if(!selectedLine) return;
-        const splitOriginal = selectedLine.original.split(" ");
+        const splitOriginal = selectedLine.original.split(" ").map(word => {
+            return word.replace(/[-'`~!¡@#$%^&*()_|+=¿?;:'",.<>\{\}\[\]\\\/]/gi, '');
+        });
         setWords(splitOriginal);
-
-
     }, [selectedLine]);
 
-    
-    const handleGetDefinition = e => {
-        const word = e.currentTarget.getAttribute("name");
-        setSelectedWord(word);
+    useEffect(() => {
+        words.length && setSelectedWord(words[0])
+    }, [words]);
+
+    useEffect(() => {
+        if(selectedWord === "") return;
+
+        let word = selectedWord;
         axios.get("http://localhost:3001/definition", {
             params: {
                 word
@@ -97,7 +103,15 @@ export default function LyricSelection({selectedLine,}){
         })
         .then(res => {
             setDefinitions(res.data);
+            console.log(res.data);
         });
+    }, [selectedWord]);
+
+    
+    const handleGetDefinition = e => {
+        const word = e.currentTarget.getAttribute("name");
+        setSelectedWord(word);
+        
     };
 
 
@@ -124,7 +138,7 @@ export default function LyricSelection({selectedLine,}){
             <DefinitionContainer>
                 {definitions &&
                 <>
-                    <h2>{selectedWord} {definitions.wordType && `- ${definitions.wordType}`}</h2>
+                    <h2>{selectedWord.length > 1 ? selectedWord.charAt(0).toUpperCase() + selectedWord.substring(1) : selectedWord} {definitions.wordType && `- ${definitions.wordType}`}</h2>
                     {definitions.gender && 
                         <h5>Gender: {definitions.gender}</h5>
                     }
@@ -137,7 +151,7 @@ export default function LyricSelection({selectedLine,}){
                             return (
                                 <Definition>
                                     <DefinitionTitle>
-                                    {definition.translations && <div><strong>{definition.translations}</strong>  </div>}
+                                    {definition.translations && <div><strong>{definition.translations.map(string => (string.charAt(0).toUpperCase() +string.substr(1))).join(" | ")}</strong></div>}
                                     {definition.domain &&<div>  Domain: {definition.domain}</div>}
                                      {definition.usage &&<div> Usage: {definition.usage}</div>}
                                     </DefinitionTitle>

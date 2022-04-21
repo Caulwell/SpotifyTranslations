@@ -16,9 +16,6 @@ const StyledApp = styled.div`
 
 function App() {
 
-  useEffect(() => {
-    console.log("re render");
-  },[])
 
   const [theme, setTheme] = useState("light");
   const isDarkTheme = theme === "dark";

@@ -49,9 +49,10 @@ export default function Dashboard({code, toggleTheme, isDarkTheme}){
     const [selectedLine, setSelectedLine] = useState("");
 
     const chooseTrack = (track) => {
-        setPlayingTrack(track);
         setSearch("");
         setLyrics("");
+        setPlayingTrack(track);
+        
     };
 
     const handleSelectLyric = (e) => {
@@ -69,6 +70,7 @@ export default function Dashboard({code, toggleTheme, isDarkTheme}){
         })
         .then(res => {
             setLyrics(res.data.lyrics);
+            console.log(res.data.lyrics);
             setSelectedLine(res.data.lyrics[0]);
         });
     },[playingTrack]);

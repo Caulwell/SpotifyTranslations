@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import styled from "styled-components";
 
 const StyledLyrics = styled.div`
@@ -21,13 +22,17 @@ transition: 0.3s;
 }
 `;
 
+
+
 export default function LyricsContainer({lyrics, handleSelectLyric}){
 
+    
+   
     return (
 
         <StyledLyrics>
             {lyrics.map((line, index) => {
-                if(!line.original) return;
+                if(!line.original) return null;
                 return (
                     <StyledLyric name={index} onClick={e => handleSelectLyric(e)}>
                         <div>

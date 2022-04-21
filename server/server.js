@@ -90,18 +90,17 @@ app.get("/lyrics", async (req, res) => {
             });
 
             const filteredSubheadings = trimmedLyrics.filter(line => {
-                return line.original.charAt(0) !== '[';
+                return line.original.charAt(0) !== '[' && line.original !== "";
             });
-
+            
             res.json({lyrics: filteredSubheadings});
         });
         
 });
 
 app.get("/definition", async (req, res) => {
-
+    
     const word = req.query.word;
-
     const definitions = await scraper.getDefinitions(word);
 
     res.json(definitions);
