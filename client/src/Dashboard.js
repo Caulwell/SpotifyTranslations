@@ -7,7 +7,7 @@ import axios from "axios";
 import styled from "styled-components";
 import LyricsContainer from "./LyricsContainer";
 import Header from "./Header";
-import LyricSelection from "./LyricSelection";
+import Dictionary from "./Dictionary";
 
 
 const spotifyApi = new SpotifyWebApi({
@@ -25,16 +25,36 @@ const StyledDashboard = styled.div`
 
 const StyledMain = styled.main`
     display: flex;
+    flex-direction: column;
+    padding: 2rem 12rem;
     max-height: 80vh;
+    overflow-y: auto;
+    scrollbar-gutter: stable;
+    &::-webkit-scrollbar-track{
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	border-radius: 10px;
+	background-color: ${props => props.theme.body};
+}
+&::-webkit-scrollbar
+{
+	width: 12px;
+	background-color: ${props => props.theme.body};
+}
+&::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: ${props => props.theme.midPrimary};
+}
 `;
 
 
 const StyledSearchResults = styled.div`
-    margin: 0 auto;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr 1fr;
 `;
+
 
 
 
@@ -45,6 +65,7 @@ export default function Dashboard({code, toggleTheme, isDarkTheme}){
     const [searchResults, setSearchResults] = useState([]);
     const [playingTrack, setPlayingTrack] = useState();
     const [lyrics, setLyrics] = useState("");
+    const [dictionaryOpen, setDictionaryOpen] = useState(false);
 
     const [selectedLine, setSelectedLine] = useState("");
 
@@ -57,6 +78,7 @@ export default function Dashboard({code, toggleTheme, isDarkTheme}){
 
     const handleSelectLyric = (e) => {
         setSelectedLine(lyrics[e.currentTarget.getAttribute("name")]);
+        setDictionaryOpen(true);
     };
 
     // get lyrics
@@ -70,7 +92,6 @@ export default function Dashboard({code, toggleTheme, isDarkTheme}){
         })
         .then(res => {
             setLyrics(res.data.lyrics);
-            setSelectedLine(res.data.lyrics[0]);
         });
     },[playingTrack]);
 
@@ -114,17 +135,19 @@ export default function Dashboard({code, toggleTheme, isDarkTheme}){
     return (
         <StyledDashboard>
             <Header toggleTheme={toggleTheme} isDarkTheme={isDarkTheme} setSearch={setSearch} search={search}/>
-            
+           <StyledMain>
             {/* song selected and lyrics retrieved from server and shown */}
             {searchResults.length === 0 && lyrics ? 
+                <>
+                    <LyricsContainer 
+                        lyrics={lyrics} 
+                        handleSelectLyric={handleSelectLyric} 
+                        selectedLine={selectedLine}
+                        dictionaryOpen={dictionaryOpen}
+                        />
+                    { dictionaryOpen && <Dictionary selectedLine={selectedLine} setDictionaryOpen={setDictionaryOpen}/> }
 
-
-                <StyledMain>
-                    <LyricsContainer lyrics={lyrics} handleSelectLyric={handleSelectLyric} selectedLine={selectedLine}/>
-                    <LyricSelection selectedLine={selectedLine}/>
-                </StyledMain>
-
-
+                </>
             : 
             
             // search is active and search results are rendered
@@ -143,7 +166,7 @@ export default function Dashboard({code, toggleTheme, isDarkTheme}){
 
             }
             
-            
+            </StyledMain>
            
             <div>
                 <Player accessToken={accessToken} trackUri={playingTrack?.uri}/>

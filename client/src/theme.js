@@ -12,19 +12,21 @@ export const GlobalStyles = createGlobalStyle`
 
 export const lightTheme = {
   body: '#fff',
-  secondaryBody: "#E1E2DF",
+
+  lightPrimary: "#F4F6F6",
+  midPrimary: "#E9EDED",
+  darkPrimary: "#8FA3A3",
+  selected: "#495A5A",
+
   text: '#131515',
   buttonText: "#E9EFC0",
-  flair1: "#48D59B",
-  flair2: "#26A671",
   
 };
 
 export const darkTheme = {
-  body: '#131515',
-  secondaryBody: "#2B2C28",
-  text: '#FBF5F3',
-  buttonText: '#FBF5F3',
-  flair1: "#48D59B",
-  flair2: "#26A671",
+  body: '#19191d',
+  lighter: "#1d1d23",
+  darker: "#343438",
+  flair: "#e91e63",
+  text: '#fafafa',
 };

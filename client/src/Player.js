@@ -8,7 +8,7 @@ export default function Player({accessToken, trackUri}){
     const styles = {
         bgColor: `${props => props.theme.body}`,
         color: `${props => props.theme.text}`,
-        trackNameColor: `${props => props.theme.text}`
+        trackNameColor: `${props => props.theme.text}`,
     };
 
     useEffect(() => {
