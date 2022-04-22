@@ -15,7 +15,6 @@ const spotifyApi = new SpotifyWebApi({
 });
 
 const StyledDashboard = styled.div`
-    color: ${props => props.theme.text};
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -121,7 +120,7 @@ export default function Dashboard({code, toggleTheme, isDarkTheme}){
 
 
                 <StyledMain>
-                    <LyricsContainer lyrics={lyrics} handleSelectLyric={handleSelectLyric}/>
+                    <LyricsContainer lyrics={lyrics} handleSelectLyric={handleSelectLyric} selectedLine={selectedLine}/>
                     <LyricSelection selectedLine={selectedLine}/>
                 </StyledMain>
 

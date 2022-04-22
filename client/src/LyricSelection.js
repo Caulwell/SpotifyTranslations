@@ -10,6 +10,23 @@ const StyledSelectedLyric = styled.div`
     width: 95%;
     padding: 1rem 1rem;
     overflow-y: auto; 
+
+    &::-webkit-scrollbar-track{
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	border-radius: 10px;
+	background-color: ${props => props.theme.body};
+    }
+    &::-webkit-scrollbar
+    {
+        width: 12px;
+        background-color: ${props => props.theme.body};
+    }
+    &::-webkit-scrollbar-thumb
+    {
+        border-radius: 10px;
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+        background-color: ${props => props.theme.secondaryBody};
+    }
 `;
 
 const Heading = styled.div`
@@ -83,10 +100,10 @@ export default function LyricSelection({selectedLine,}){
         if(!selectedLine) return;
 
         // split sentence to words with punctuation removed
-        const splitOriginal = selectedLine.original.split(" ").map(word => {
-            return word.replace(/[-'`~!¡@#$%^&*()_|+=¿?;:'",.<>\{\}\[\]\\\/]/gi, '');
-        });
-        setWords(splitOriginal);
+        const splitOriginal = selectedLine.original.replace(/[-'`~!¡@#$%^&*()_|+=¿?;:'",.<>\{\}\[\]\\\/]/gi, '')
+            .split(/\s+/);
+    setWords(splitOriginal);
+
     }, [selectedLine]);
 
     useEffect(() => {
