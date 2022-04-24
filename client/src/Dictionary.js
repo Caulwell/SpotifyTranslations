@@ -1,6 +1,8 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
+import DefinitionsList from "./DefinitionsList";
+import DictionaryMeta from "./DictionaryMeta";
 
 
 
@@ -69,41 +71,13 @@ const WordButton = styled.button`
 `;
 
 const DefinitionContainer = styled.div`
-    
+    padding: 1rem;
 `;
 
-const MetaInfo = styled.div`
-    background-color: ${props => props.theme.midPrimary};
-    border-radius: 3px;
-    padding: 0.5rem;
-    margin-top: 1rem;
-`;
 
-const DefinitionsList = styled.div`
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-`;
 
-const Definition = styled.div`
-margin-top: 1rem;
-    background-color: ${props => props.theme.lightPrimary};
-    padding: 0.5rem;
-    height: 8rem;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-`;
 
-const DefinitionTitle = styled.div`
-    display: flex;
-    justify-content: space-between;
-`;
 
-const DefinitionBody = styled.div`
-    display: flex;
-    flex-direction: column;
-`;
 
 
 export default function Dictionary({selectedLine, setDictionaryOpen}){
@@ -190,33 +164,8 @@ export default function Dictionary({selectedLine, setDictionaryOpen}){
             <DefinitionContainer>
                 {definitions &&
                 <>
-                    <MetaInfo>
-                    <h2>{selectedWord.length > 1 ? selectedWord.charAt(0).toUpperCase() + selectedWord.substring(1) : selectedWord} {definitions.wordType && `- ${definitions.wordType}`}</h2>
-                        {definitions.gender && 
-                            <h5>Gender: {definitions.gender}</h5>
-                        }
-                        {definitions.pronounciation && 
-                            <h5>Pronounciation: {definitions.pronounciation}</h5>
-                        }
-                    </MetaInfo>
-                    <DefinitionsList>
-                        {definitions.definitions && definitions.definitions.map((definition, index) => {
-                            return (
-                                <Definition key={`definition${index}`}>
-                                    <DefinitionTitle>
-                                    {definition.translations && <div><strong>{definition.translations.map(string => (string.charAt(0).toUpperCase() +string.substr(1))).join(" | ")}</strong></div>}
-                                    {definition.domain &&<div>  Domain: {definition.domain}</div>}
-                                     {definition.usage &&<div> Usage: {definition.usage}</div>}
-                                    </DefinitionTitle>
-                                    <DefinitionBody>
-                                        {definition.spanishDef && <div>Spanish Definition: {definition.spanishDef}</div>}
-                                        {definition.exampleSpan &&<div> Example: {definition.exampleSpan}</div>}
-                                        {definition.exampleTrans && <div>Example: {definition.exampleTrans}</div>}
-                                    </DefinitionBody>
-                                </Definition>
-                            )
-                        })}
-                    </DefinitionsList>
+                    <DictionaryMeta selectedWord={selectedWord} definitions={definitions}/>
+                    <DefinitionsList definitions ={definitions.definitions}/>
                 </>
                    
                 }
