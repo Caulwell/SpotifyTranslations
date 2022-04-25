@@ -14,7 +14,6 @@ justify-content: space-between;
 background-color: ${props => props.theme.midPrimary};
 border-radius: 3px;
 padding: 0.5rem;
-margin-top: 1rem;
 `;
 
 const SelectedWord = styled.h4`
@@ -29,11 +28,14 @@ const WordInfo = styled.div`
     margin: 0 3rem 0 0;
 `;
 
-const InfoButton = styled.button`
+const InfoButton = styled.a`
+    display: flex;
+    align-items: center;
     color: white;
     background-color: ${props => props.theme.flair};
     border: none;
     padding: 0 1rem;
+    text-decoration: none;
 `;
 
 export default function DictionaryMeta({selectedWord, definitions}){
@@ -120,7 +122,7 @@ export default function DictionaryMeta({selectedWord, definitions}){
                     }
                     </div>
                     
-                    <InfoButton >MORE INFORMATION</InfoButton>
+                    <InfoButton target="_blank" href={"https://dictionary.cambridge.org/dictionary/spanish-english/" + selectedWord}>MORE INFORMATION</InfoButton>
                 </div>
                 
         </MetaInfo>

@@ -9,7 +9,6 @@ import DictionaryMeta from "./DictionaryMeta";
 const StyledDictionary = styled.div`
     display: flex;
     flex-direction: column;
-    height: 25rem;
     width: 100%;
     background-color: ${props => props.theme.lighter};
 
@@ -173,7 +172,7 @@ export default function Dictionary({selectedLine, setDictionaryOpen}){
         </>
         }
 
-        {definitions.wordType === "" && "No definitions available for this word"}
+        
        
     </StyledDictionary>
 
