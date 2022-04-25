@@ -1,10 +1,10 @@
+import { useState } from "react";
 import styled from "styled-components"
 
 
 const StyledHeader = styled.div`
 
     display: flex;
-    width: 100%;
     justify-content: space-between;
 `;
 
@@ -12,6 +12,7 @@ const StyledHeader = styled.div`
 
 
 const StyledSVG= styled.svg`
+    margin-left: 2rem;
     fill: ${props => props.theme.text};
     &:hover {
         cursor: pointer;
@@ -38,10 +39,10 @@ const StyledSearchBar = styled.input`
 
 const RightHeader = styled.div`
     display: flex;
-    width: 12rem;
 `;
 const PlaylistSelect = styled.select`
     padding: 0 2rem;
+    width: 12rem;
     height: 2rem;
     text-align-last: left;
     color: ${props => props.theme.text};
@@ -50,11 +51,23 @@ const PlaylistSelect = styled.select`
 
 `;
 
+const StyledPlaylist = styled.option`
+
+`;
 
 
-export default function Header({toggleTheme, isDarkTheme, setSearch, search}){
+
+export default function Header({toggleTheme, isDarkTheme, setSearch, search, playlists, handlePlaylist}){
 
 
+    const [chosenPlaylist, setChosenPlaylist] = useState("none");
+    
+    const onPlaylistChange = e => {
+        setChosenPlaylist(e.currentTarget.value);
+        handlePlaylist(e.currentTarget.value);
+
+    }
+    
     return (
         <StyledHeader>
             <StyledSVG
@@ -79,10 +92,18 @@ export default function Header({toggleTheme, isDarkTheme, setSearch, search}){
                 >
             </StyledSearchBar>
             <RightHeader style={{display: "flex", justifyContent: "space-between"}}>
-            <PlaylistSelect>
-                <option value="" disabled selected hidden>
+            <PlaylistSelect onChange={e => onPlaylistChange(e)} value={chosenPlaylist}>
+                <option value="none" disabled selected hidden>
                     Playlists
                 </option>
+                {playlists && playlists.map(playlist => {
+                    return (
+                        <StyledPlaylist value={playlist.id}>
+                            {playlist.name}
+                        </StyledPlaylist>
+                    )
+                    
+                })}
             </PlaylistSelect>
             {isDarkTheme ?
                 <StyledSVG onClick={toggleTheme} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

@@ -67,9 +67,22 @@ export default function Dashboard({code, toggleTheme, isDarkTheme}){
     const [dictionaryOpen, setDictionaryOpen] = useState(false);
 
     const [selectedLine, setSelectedLine] = useState("");
+    const [playlists, setPlaylists] = useState();
+
+    const getSmallestAlbumCover = (track) => {
+
+       return track.album.images.reduce(
+            (smallest, image) => {
+              if (image.height < smallest.height) return image;
+              return smallest;
+            },
+            track.album.images[0]
+          );
+    };
 
     const chooseTrack = (track) => {
         setSearch("");
+        setSearchResults([]);
         setLyrics("");
         setPlayingTrack(track);
         
@@ -79,6 +92,24 @@ export default function Dashboard({code, toggleTheme, isDarkTheme}){
         setSelectedLine(lyrics[e.currentTarget.getAttribute("name")]);
         setDictionaryOpen(true);
     };
+
+    const handlePlaylist = id => {
+        spotifyApi.getPlaylist(id)
+            .then(res => {
+
+                const tracks = res.body.tracks.items.map(el => {
+
+                    const smallestAlbumImage = getSmallestAlbumCover(el.track)
+                    return {
+                        artist: el.track.artists[0].name,
+                        title: el.track.name,
+                        uri: el.track.uri,
+                        albumUrl: smallestAlbumImage.url,
+                    };
+                });
+                setSearchResults(tracks);
+            });
+    }
 
     // get lyrics
     useEffect(() => {
@@ -98,24 +129,28 @@ export default function Dashboard({code, toggleTheme, isDarkTheme}){
     useEffect(() => {
         if(!accessToken) return;
         spotifyApi.setAccessToken(accessToken);
+        spotifyApi.getMe()
+            .then(res =>{
+                spotifyApi.getUserPlaylists(res.body.display_name)
+                    .then(response => {
+                        setPlaylists(response.body.items);
+                    })
+                    .catch(error => console.log(error));
+            })
+            .catch(err => console.log(err));
+
     }, [accessToken]);
 
     useEffect(() => {
         if (!search) return setSearchResults([]);
         if (!accessToken) return;
-        
+        console.log(search);
         let cancel = false;
         spotifyApi.searchTracks(search).then(res => {
             if(cancel) return;
           setSearchResults(
             res.body.tracks.items.map(track => {
-              const smallestAlbumImage = track.album.images.reduce(
-                (smallest, image) => {
-                  if (image.height < smallest.height) return image;
-                  return smallest
-                },
-                track.album.images[0]
-              )
+              const smallestAlbumImage = getSmallestAlbumCover(track);
     
               return {
                 artist: track.artists[0].name,
@@ -134,7 +169,7 @@ export default function Dashboard({code, toggleTheme, isDarkTheme}){
 
     return (
         <StyledDashboard>
-            <Header toggleTheme={toggleTheme} isDarkTheme={isDarkTheme} setSearch={setSearch} search={search}/>
+            <Header toggleTheme={toggleTheme} isDarkTheme={isDarkTheme} setSearch={setSearch} search={search} playlists={playlists} handlePlaylist={handlePlaylist}/>
            <StyledMain>
             {/* song selected and lyrics retrieved from server and shown */}
             {searchResults.length === 0 && lyrics ? 
