@@ -50,9 +50,8 @@ const StyledMain = styled.main`
 
 
 const StyledSearchResults = styled.div`
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr 1fr;
+    display: flex;
+    flex-direction: column;
 `;
 
 
@@ -92,6 +91,7 @@ export default function Dashboard({code, toggleTheme, isDarkTheme}){
         })
         .then(res => {
             setLyrics(res.data.lyrics);
+            setDictionaryOpen(false);
         });
     },[playingTrack]);
 

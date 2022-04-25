@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 const StyledTrack = styled.div`
     display: flex;
+    align-items: center;
     padding: 0.4rem;
     margin: 0 0.3rem 1.5rem 0;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
@@ -12,16 +13,21 @@ const StyledTrack = styled.div`
     }
 `;
 
+const Image = styled.img`
+    height: 3rem;
+    width: 3rem;
+    margin-right: 1rem;
+`;
+
 const TrackDetails = styled.div`
     display: flex; 
-    flex-direction: column;
-    height: 6rem;
 `;
 
 const TrackName = styled.h4`
     font-weight: normal;
     font-size: 1rem;
     margin: 0;
+    margin-right: 1rem;
     padding: 0;
 `;
 
@@ -37,14 +43,15 @@ export default function TrackSearchResult({track, chooseTrack}){
 
     const handlePlay = () => {
         chooseTrack(track);
+        console.log(track);
     };
 
     return (
         <StyledTrack onClick={handlePlay}>
-            <img src={track.albumUrl} style={{height: "64px", width: "64px"}}/>   
+            <Image src={track.albumUrl} />   
             <TrackDetails>
-                <TrackName>{track.title}</TrackName>
-                <TrackArtist>{track.artist}</TrackArtist>
+                <TrackName>Title: {track.title} </TrackName>
+                <TrackArtist>Artist: {track.artist}</TrackArtist>
             </TrackDetails>    
         </StyledTrack>
     )

@@ -36,6 +36,7 @@ const Heading = styled.div`
     justify-content: space-between;
     align-items: center;
     padding: 0 1rem;
+    color: ${props => props.theme.surfaceText}
 
 `;
 

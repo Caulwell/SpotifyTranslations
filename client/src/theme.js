@@ -12,14 +12,11 @@ export const GlobalStyles = createGlobalStyle`
 
 export const lightTheme = {
   body: '#fff',
-
-  lightPrimary: "#F4F6F6",
-  midPrimary: "#E9EDED",
-  darkPrimary: "#8FA3A3",
-  selected: "#495A5A",
-
+  lighter: "#ebebeb",
+  darker: "#343438",
+  flair: "#e91e63",
   text: '#131515',
-  buttonText: "#E9EFC0",
+  surfaceText: "#fafafa",
   
 };
 
@@ -29,4 +26,5 @@ export const darkTheme = {
   darker: "#343438",
   flair: "#e91e63",
   text: '#fafafa',
+  surfaceText: '#fafafa'
 };
