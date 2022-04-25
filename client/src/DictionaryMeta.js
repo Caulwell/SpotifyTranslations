@@ -1,43 +1,44 @@
 import styled from "styled-components"
 
+const StyledSVG= styled.svg`
+fill: ${props => props.theme.text};
+margin-right: 1rem;
+&:hover {
+    cursor: pointer;
+}
+`;
+
+const MetaInfo = styled.div`
+display: flex;
+justify-content: space-between;
+background-color: ${props => props.theme.midPrimary};
+border-radius: 3px;
+padding: 0.5rem;
+margin-top: 1rem;
+`;
+
+const SelectedWord = styled.h4`
+    font-size: 2.5rem;
+    margin: 0;
+    margin-right: 2rem;
+`;
+
+const WordInfo = styled.div`
+    display: flex;
+    align-items: center;
+    margin: 0 3rem 0 0;
+`;
+
+const InfoButton = styled.button`
+    color: white;
+    background-color: ${props => props.theme.flair};
+    border: none;
+    padding: 0 1rem;
+`;
 
 export default function DictionaryMeta({selectedWord, definitions}){
 
-    const StyledSVG= styled.svg`
-    fill: ${props => props.theme.text};
-    margin-right: 1rem;
-    &:hover {
-        cursor: pointer;
-    }
-`;
-
-    const MetaInfo = styled.div`
-    display: flex;
-    justify-content: space-between;
-    background-color: ${props => props.theme.midPrimary};
-    border-radius: 3px;
-    padding: 0.5rem;
-    margin-top: 1rem;
-`;
-
-    const SelectedWord = styled.h4`
-        font-size: 2.5rem;
-        margin: 0;
-        margin-right: 2rem;
-    `;
-
-    const WordInfo = styled.div`
-        display: flex;
-        align-items: center;
-        margin: 0 3rem 0 0;
-    `;
-
-    const InfoButton = styled.button`
-        color: white;
-        background-color: ${props => props.theme.flair};
-        border: none;
-        padding: 0 1rem;
-    `;
+ 
 
 
     return (
