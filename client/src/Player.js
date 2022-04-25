@@ -1,9 +1,21 @@
 import { useEffect, useState } from "react";
 import SpotifyPlayer from "react-spotify-web-playback";
 
-export default function Player({accessToken, trackUri}){
+export default function Player({accessToken, trackUri, updateTrack}){
 
     const [play, setPlay ] = useState(false);
+
+    const callbackCheck = data => {
+
+        if(data.type==="track_update"){
+            updateTrack({
+                artist: data.track.artists[0].name,
+                title: data.track.name,
+            });
+        }
+
+        if(!data.isPlaying) setPlay(false);
+    };
 
     const styles = {
         bgColor: `${props => props.theme.body}`,
@@ -13,18 +25,16 @@ export default function Player({accessToken, trackUri}){
 
     useEffect(() => {
         setPlay(true);
-    }, [trackUri])
+    }, [trackUri]);
 
     if(!accessToken) return null;
         return <SpotifyPlayer 
                     token={accessToken}
                     showSaveIcon
-                    callback={state => {
-                        if(!state.isPlaying) setPlay(false)
-                    }}
                     play={play}
-                    uris={trackUri ? [trackUri] : []}
+                    uris={!trackUri?.length ? [] : trackUri}
                     styles={styles}
+                    callback={data => callbackCheck(data)}
         />
 
 }

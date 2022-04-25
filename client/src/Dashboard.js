@@ -62,7 +62,10 @@ export default function Dashboard({code, toggleTheme, isDarkTheme}){
     const accessToken = useAuth(code);
     const [search, setSearch] = useState("");
     const [searchResults, setSearchResults] = useState([]);
-    const [playingTrack, setPlayingTrack] = useState();
+
+    const [trackURIs, setTrackURIs] = useState(null);
+    const [playingTrack, setPlayingTrack] = useState(null);
+
     const [lyrics, setLyrics] = useState("");
     const [dictionaryOpen, setDictionaryOpen] = useState(false);
 
@@ -84,16 +87,20 @@ export default function Dashboard({code, toggleTheme, isDarkTheme}){
         setSearch("");
         setSearchResults([]);
         setLyrics("");
-        setPlayingTrack(track);
+        setTrackURIs([track.uri]);
         
     };
+
+    const updateTrack = track => {
+        setPlayingTrack(track);
+    }
 
     const handleSelectLyric = (e) => {
         setSelectedLine(lyrics[e.currentTarget.getAttribute("name")]);
         setDictionaryOpen(true);
     };
 
-    const handlePlaylist = id => {
+    const handleViewPlaylist = id => {
         spotifyApi.getPlaylist(id)
             .then(res => {
 
@@ -109,11 +116,23 @@ export default function Dashboard({code, toggleTheme, isDarkTheme}){
                 });
                 setSearchResults(tracks);
             });
-    }
+    };
+
+    const handlePlayPlaylist = id => {
+
+        spotifyApi.getPlaylist(id)
+            .then(res => {
+                const trackURIs = res.body.tracks.items.map(el => {
+                    return el.track.uri;
+                });
+                setTrackURIs(trackURIs);
+            });
+    };
 
     // get lyrics
     useEffect(() => {
         if(!playingTrack) return;
+        console.log(playingTrack);
         axios.get("http://localhost:3001/lyrics", {
             params: {
                 track: playingTrack.title,
@@ -144,7 +163,6 @@ export default function Dashboard({code, toggleTheme, isDarkTheme}){
     useEffect(() => {
         if (!search) return setSearchResults([]);
         if (!accessToken) return;
-        console.log(search);
         let cancel = false;
         spotifyApi.searchTracks(search).then(res => {
             if(cancel) return;
@@ -169,7 +187,7 @@ export default function Dashboard({code, toggleTheme, isDarkTheme}){
 
     return (
         <StyledDashboard>
-            <Header toggleTheme={toggleTheme} isDarkTheme={isDarkTheme} setSearch={setSearch} search={search} playlists={playlists} handlePlaylist={handlePlaylist}/>
+            <Header toggleTheme={toggleTheme} isDarkTheme={isDarkTheme} setSearch={setSearch} search={search} playlists={playlists} handlePlayPlayList={handlePlayPlaylist} handleViewPlayList={handleViewPlaylist}/>
            <StyledMain>
             {/* song selected and lyrics retrieved from server and shown */}
             {searchResults.length === 0 && lyrics ? 
@@ -204,7 +222,7 @@ export default function Dashboard({code, toggleTheme, isDarkTheme}){
             </StyledMain>
            
             <div>
-                <Player accessToken={accessToken} trackUri={playingTrack?.uri}/>
+                <Player accessToken={accessToken} trackUri={trackURIs} updateTrack={updateTrack}/>
             </div>
         </StyledDashboard>
     )
