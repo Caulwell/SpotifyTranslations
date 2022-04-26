@@ -12,7 +12,7 @@ box-sizing: border-box;
 export const StyledMain = styled.main`
 display: flex;
 flex-direction: column;
-padding: 2rem 12rem;
+padding: 1rem 6rem;
 max-height: 80vh;
 overflow-y: auto;
 scrollbar-gutter: stable;
@@ -34,11 +34,23 @@ background-color: ${props => props.theme.midPrimary};
 }
 `;
 
+export const DictionaryContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    height: 100%;
+    padding: 0 0;
+`;
+
+export const ArrowContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`;
 
 export const StyledSearchResults = styled.div`
 display: flex;
 flex-direction: column;
-margin-top: 1rem;
+margin-top: 3rem;
 `;
 
 export const SearchTitle = styled.div`
@@ -46,9 +58,9 @@ export const SearchTitle = styled.div`
     background-color: ${props => props.theme.body};
     z-index: 99; 
     justify-content: space-between;
-    margin-bottom: 1rem;
-    margin-top: -2rem;
+    margin:-2rem 2rem 0 0;
+    padding: 0 0 2rem 0;
     font-size: 2rem;
     position: fixed;
-    width: 71vw;
+    width: 68vw;
 `;

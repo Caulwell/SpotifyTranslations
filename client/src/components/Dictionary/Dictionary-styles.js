@@ -6,23 +6,6 @@ export const StyledDictionary = styled.div`
     flex-direction: column;
     width: 100%;
     background-color: ${props => props.theme.lighter};
-
-    &::-webkit-scrollbar-track{
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-	border-radius: 10px;
-	background-color: ${props => props.theme.body};
-    }
-    &::-webkit-scrollbar
-    {
-        width: 12px;
-        background-color: ${props => props.theme.body};
-    }
-    &::-webkit-scrollbar-thumb
-    {
-        border-radius: 10px;
-        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
-        background-color: ${props => props.theme.midPrimary};
-    }
 `;
 
 export const Heading = styled.div`
@@ -37,9 +20,9 @@ export const Heading = styled.div`
 
 export const StyledSVG= styled.svg`
     fill: ${props => props.theme.text};
-    &:hover {
-        cursor: pointer;
-    }
+    cursor: ${props => props.active ? "pointer" : "auto"};
+    opacity: ${props => props.active ? 1 : 0.5};
+
 `;
 
 

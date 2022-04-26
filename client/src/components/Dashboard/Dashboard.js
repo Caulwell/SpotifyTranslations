@@ -8,9 +8,10 @@ import LyricsContainer from "../LyricsContainer/LyricsContainer";
 import Header from "../Header/Header";
 import Dictionary from "../Dictionary/Dictionary";
 
-import { StyledDashboard, StyledMain, StyledSearchResults, SearchTitle } from "./Dashboard-styles";
+import { StyledDashboard, StyledMain, DictionaryContainer, ArrowContainer, StyledSearchResults, SearchTitle } from "./Dashboard-styles";
 import Close from "../../icons/Close";
-
+import LeftChevron from "../../icons/LeftChevron";
+import RightChevron from "../../icons/RIghtChevron";
 
 const spotifyApi = new SpotifyWebApi({
     clientId: "82527983226848fc8ce7ebeb89e29f05"
@@ -28,8 +29,9 @@ export default function Dashboard({code, toggleTheme, isDarkTheme}){
 
     const [lyrics, setLyrics] = useState("");
     const [dictionaryOpen, setDictionaryOpen] = useState(false);
-
+    const [currentIndex, setCurrentIndex] = useState(0);
     const [selectedLine, setSelectedLine] = useState("");
+
     const [playlists, setPlaylists] = useState();
 
     const getSmallestAlbumCover = (track) => {
@@ -57,6 +59,7 @@ export default function Dashboard({code, toggleTheme, isDarkTheme}){
 
     const handleSelectLyric = (e) => {
         setSelectedLine(lyrics[e.currentTarget.getAttribute("name")]);
+        setCurrentIndex(parseInt(e.currentTarget.getAttribute("name")));
         setDictionaryOpen(true);
     };
 
@@ -87,6 +90,22 @@ export default function Dashboard({code, toggleTheme, isDarkTheme}){
                 });
                 setTrackURIs(trackURIs);
             });
+    };
+
+    const previousLyric = () => {
+        if(currentIndex > 0){
+            setSelectedLine(lyrics[currentIndex-1]);
+            setCurrentIndex(currentIndex-1);
+        }
+
+    };
+
+    const nextLyric = () => {
+        if(currentIndex < lyrics.length-1){
+            setSelectedLine(lyrics[currentIndex+1]);
+            setCurrentIndex(currentIndex+1);
+        }
+
     };
 
     // get lyrics
@@ -158,7 +177,17 @@ export default function Dashboard({code, toggleTheme, isDarkTheme}){
                         selectedLine={selectedLine}
                         dictionaryOpen={dictionaryOpen}
                         />
-                    { dictionaryOpen && <Dictionary selectedLine={selectedLine} setDictionaryOpen={setDictionaryOpen}/> }
+                    { dictionaryOpen && 
+                    <DictionaryContainer>
+                    <ArrowContainer>
+                        <LeftChevron active={currentIndex > 0} clickFunction={previousLyric}/>
+                    </ArrowContainer>
+                    <Dictionary selectedLine={selectedLine} setDictionaryOpen={setDictionaryOpen}/> 
+                    <ArrowContainer>
+                        <RightChevron active={lyrics && currentIndex < lyrics.length-1} clickFunction={nextLyric}/>
+                    </ArrowContainer>
+                    </DictionaryContainer>
+                    }
                 </>
                 
             : 

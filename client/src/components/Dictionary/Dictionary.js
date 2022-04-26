@@ -3,8 +3,9 @@ import { useEffect, useState } from "react";
 import DefinitionsList from "./DefinitionsList";
 import DictionaryMeta from "./DictionaryMeta";
 
-import { StyledDictionary, Heading, StyledSVG, WordContainer, WordButton, DefinitionContainer } from "./Dictionary-styles";
+import { StyledDictionary, Heading, WordContainer, WordButton, DefinitionContainer } from "./Dictionary-styles";
 import Close from "../../icons/Close";
+
 
 
 export default function Dictionary({selectedLine, setDictionaryOpen}){
@@ -12,7 +13,6 @@ export default function Dictionary({selectedLine, setDictionaryOpen}){
     const [words, setWords] = useState([]);
     const [selectedWord, setSelectedWord] = useState("");
     const [definitions, setDefinitions] = useState({});
-
 
 
     useEffect(() =>{
@@ -58,39 +58,40 @@ export default function Dictionary({selectedLine, setDictionaryOpen}){
 
     return (
 
-
-        <StyledDictionary>
-        {selectedLine && 
-        <>
-        <Heading>
-            <h3>
-                {selectedLine.translation}
-            </h3>
-            <Close closeFunction={setDictionaryOpen}/>
-        </Heading>
-        <WordContainer>
-                {words.map((word, index) => {
-                    return (
-                        <WordButton key={`button${index}`} name={word} selected={word === selectedWord} last={index === words.length-1} first ={index === 0} onClick={e => handleGetDefinition(e)}>{word}</WordButton>
-                    )
-                })}
-        </WordContainer>
-            
-            <DefinitionContainer>
-                {definitions &&
+        
+           
+            <StyledDictionary>
+                {selectedLine && 
                 <>
-                    <DictionaryMeta selectedWord={selectedWord} definitions={definitions}/>
-                    <DefinitionsList definitions ={definitions.definitions}/>
+                <Heading>
+                    <h3>
+                        {selectedLine.translation}
+                    </h3>
+                    <Close closeFunction={setDictionaryOpen}/>
+                </Heading>
+                <WordContainer>
+                        {words.map((word, index) => {
+                            return (
+                                <WordButton key={`button${index}`} name={word} selected={word === selectedWord} last={index === words.length-1} first ={index === 0} onClick={e => handleGetDefinition(e)}>{word}</WordButton>
+                            )
+                        })}
+                </WordContainer>
+                    
+                    <DefinitionContainer>
+                        {definitions &&
+                        <>
+                            <DictionaryMeta selectedWord={selectedWord} definitions={definitions}/>
+                            <DefinitionsList definitions ={definitions.definitions}/>
+                        </>
+                        
+                        }
+                    </DefinitionContainer>
                 </>
-                   
                 }
-            </DefinitionContainer>
-        </>
-        }
-
+            </StyledDictionary>
+            
         
        
-    </StyledDictionary>
 
     )
 }
