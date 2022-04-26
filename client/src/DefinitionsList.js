@@ -87,7 +87,6 @@ export default function DefinitionsList({definitions}){
             <Definitions>
                {!current ? <h4>No definitions available for this word</h4> : <h4>Definitions</h4>} 
                
-            {current && 
                 <Definition>
                         <DefinitionBody>
                         <DefinitionNumber>
@@ -96,13 +95,13 @@ export default function DefinitionsList({definitions}){
 
                         <div>
                         <DefinitionTitle>
-                        {current.translations && <TitleItem><strong>{current.translations.map(string => (string.charAt(0).toUpperCase() +string.substr(1))).join(" | ")}</strong></TitleItem>}
-                        {current.domain &&<TitleItem>  Domain: {current.domain}</TitleItem>}
-                            {current.usage &&<TitleItem> Usage: {current.usage}</TitleItem>}
+                        {current?.translations && <TitleItem><strong>{current?.translations.map(string => (string.charAt(0).toUpperCase() +string.substr(1))).join(" | ")}</strong></TitleItem>}
+                        {current?.domain &&<TitleItem>  Domain: {current?.domain}</TitleItem>}
+                            {current?.usage &&<TitleItem> Usage: {current?.usage}</TitleItem>}
                         </DefinitionTitle>
-                            {current.spanishDef && <div>Spanish Definition: {current.spanishDef}</div>}
-                            {current.exampleSpan &&<div> Example: {current.exampleSpan}</div>}
-                            {current.exampleTrans && <div>Example: {current.exampleTrans}</div>}
+                            {current?.spanishDef && <div>Spanish Definition: {current?.spanishDef}</div>}
+                            {current?.exampleSpan &&<div> Example: {current?.exampleSpan}</div>}
+                            {current?.exampleTrans && <div>Example: {current?.exampleTrans}</div>}
                         </div>
                         </DefinitionBody>
                         <DefinitionControls>
@@ -140,7 +139,6 @@ export default function DefinitionsList({definitions}){
                         </DefinitionControls>
                 </Definition>
             
-            }
                    
         </Definitions>
         
