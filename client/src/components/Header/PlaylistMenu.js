@@ -33,6 +33,7 @@ export default function PlaylistMenu({playlists, handlePlay, handleView}){
         <DropDown>
             {playlists.map(playlist => 
             <Playlist 
+                key={playlist.id}
                 name={playlist.id}>
                 {playlist.name.length < 20 ? playlist.name : shortenName(playlist.name)}
                 <PlaylistControls>

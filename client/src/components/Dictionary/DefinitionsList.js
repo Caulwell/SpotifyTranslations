@@ -25,7 +25,6 @@ export default function DefinitionsList({definitions}){
 
         if(e.currentTarget.getAttribute("name") === "down"){            
             if(currentIndex<definitions.length-1){
-                console.log("index:" + currentIndex + " length:" + definitions.length);
                 setCurrent(definitions[currentIndex+1]);
                 setCurrentIndex(currentIndex+1);
             }

@@ -91,7 +91,6 @@ export default function Dashboard({code, toggleTheme, isDarkTheme}){
     // get lyrics
     useEffect(() => {
         if(!playingTrack) return;
-        console.log(playingTrack);
         axios.get("http://localhost:3001/lyrics", {
             params: {
                 track: playingTrack.title,
