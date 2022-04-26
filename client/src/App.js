@@ -2,9 +2,8 @@ import { useEffect, useState } from 'react';
 import { ThemeProvider } from 'styled-components';
 import styled from 'styled-components';
 
-import Dashboard from './Dashboard';
-import Header from './Header';
-import Login from './Login';
+import Dashboard from './components/Dashboard/Dashboard';
+import Login from './components/Login/Login';
 import { lightTheme, darkTheme, GlobalStyles } from './theme';
 
 const code = new URLSearchParams(window.location.search)

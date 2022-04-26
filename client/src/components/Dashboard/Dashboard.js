@@ -1,60 +1,19 @@
-import useAuth from "./useAuth";
+import useAuth from "../../useAuth";
 import { useEffect, useState } from "react";
 import SpotifyWebApi from "spotify-web-api-node";
-import TrackSearchResult from "./TrackSearchResult";
-import Player from "./Player";
+import TrackSearchResult from "../LyricsContainer/TrackSearchResult";
+import Player from "../Player/Player";
 import axios from "axios";
-import styled from "styled-components";
-import LyricsContainer from "./LyricsContainer";
-import Header from "./Header";
-import Dictionary from "./Dictionary";
+import LyricsContainer from "../LyricsContainer/LyricsContainer";
+import Header from "../Header/Header";
+import Dictionary from "../Dictionary/Dictionary";
+
+import { StyledDashboard, StyledMain, StyledSearchResults } from "./Dashboard-styles";
 
 
 const spotifyApi = new SpotifyWebApi({
     clientId: "82527983226848fc8ce7ebeb89e29f05"
 });
-
-const StyledDashboard = styled.div`
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 1rem;
-    box-sizing: border-box;
-`;
-
-const StyledMain = styled.main`
-    display: flex;
-    flex-direction: column;
-    padding: 2rem 12rem;
-    max-height: 80vh;
-    overflow-y: auto;
-    scrollbar-gutter: stable;
-    &::-webkit-scrollbar-track{
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-	border-radius: 10px;
-	background-color: ${props => props.theme.body};
-}
-&::-webkit-scrollbar
-{
-	width: 12px;
-	background-color: ${props => props.theme.body};
-}
-&::-webkit-scrollbar-thumb
-{
-	border-radius: 10px;
-	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
-	background-color: ${props => props.theme.midPrimary};
-}
-`;
-
-
-const StyledSearchResults = styled.div`
-    display: flex;
-    flex-direction: column;
-`;
-
-
 
 
 export default function Dashboard({code, toggleTheme, isDarkTheme}){

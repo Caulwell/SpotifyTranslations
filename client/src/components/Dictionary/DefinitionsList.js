@@ -1,51 +1,5 @@
 import {useEffect, useState,} from "react";
-import styled from "styled-components";
-
-const Definitions = styled.div`
-padding: 0 0.5rem;
-display: flex;
-flex-direction: column;
-`;
-
-const Definition = styled.div`
-    background-color: ${props => props.theme.lightPrimary};
-    height: 8rem;
-    padding: 0 1.5rem;
-    display: flex;
-    justify-content: space-between;
-`;
-
-const DefinitionNumber = styled.div`
-    font-size: 4rem;
-    margin-right: 2rem;
-`;
-
-const DefinitionTitle = styled.div`
-    display: flex;
-`;
-
-const TitleItem = styled.div`
-    margin-right: 3rem;
-`;
-
-const DefinitionBody = styled.div`
-    display: flex;
-`;
-
-const DefinitionControls = styled.div`
-    display: flex;
-    flex-direction: column;
-`;
-
-const StyledSVG= styled.svg`
-fill: ${props => props.theme.text };
-opacity: ${props => props.active ? 1 : 0.5};
-margin-bottom: 2rem;
-&:hover {
-    cursor: ${props => props.active ? "pointer": "auto"};
-}
-`;
-
+import { Definition, Definitions, DefinitionNumber, DefinitionTitle, TitleItem, DefinitionBody, DefinitionControls, StyledSVG } from "./DefinitionsList-styles";
 
 export default function DefinitionsList({definitions}){
 

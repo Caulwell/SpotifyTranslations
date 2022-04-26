@@ -1,74 +1,7 @@
 import { useEffect, useState } from "react";
-import styled from "styled-components";
 
-const MenuControl = styled.div`
-    padding: 0.5rem;
-    height: 1rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
+import { MenuControl, StyledSVG, DropDown, Playlist, PlaylistControls, PlaylistControl } from "./PlaylistMenu-styles";
 
-`;
-
-const StyledSVG= styled.svg`
-fill: ${props => props.theme.text};
-`;
-
-
-
-const DropDown = styled.ul`
-    padding: 0.5rem;
-    display: flex;
-    flex-direction: column;
-    text-decoration: none;
-    list-style-type: none;
-    position: absolute;
-    top: 2rem;
-    right: 0.2rem;
-    background-color: ${props => props.theme.lighter};
-    max-height: 30rem;
-    overflow-y: auto;
-    z-index: 99;
-    &::-webkit-scrollbar-track
-    {
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-	border-radius: 10px;
-	background-color: ${props => props.theme.body};
-    }
-    &::-webkit-scrollbar
-    {
-        width: 12px;
-        background-color: ${props => props.theme.body};
-    }
-    &::-webkit-scrollbar-thumb
-    {
-        border-radius: 10px;
-        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
-        background-color: ${props => props.theme.midPrimary};
-    }
-    `;
-
-const Playlist = styled.li`
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.5rem;
-    margin: 0;
-    
-`;
-
-const PlaylistControls = styled.div`
-    display: flex;
-`;
-
-const PlaylistControl = styled.svg`
-    fill: ${props => props.theme.text};
-    cursor: pointer;
-    &:hover{
-        fill:${props => props.theme.flair};
-    }
-`;
 
 
 export default function PlaylistMenu({playlists, handlePlay, handleView}){
