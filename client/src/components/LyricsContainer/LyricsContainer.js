@@ -1,6 +1,5 @@
 
-import { StyledLyrics, StyledLyric, Original, Translation } from "./LyricsContainer-styles";
-
+import { StyledLyrics, StyledLyric, Original, Translation} from "./LyricsContainer-styles";
 
 
 export default function LyricsContainer({lyrics, handleSelectLyric, selectedLine, dictionaryOpen}){
@@ -33,8 +32,8 @@ export default function LyricsContainer({lyrics, handleSelectLyric, selectedLine
                         </Translation>
                     </StyledLyric>
                 )
-            })}
-
+            })
+        }
         </StyledLyrics>
     )
 }

@@ -66,7 +66,7 @@ export default function Dictionary({selectedLine, setDictionaryOpen}){
             <h3>
                 {selectedLine.translation}
             </h3>
-            <Close setDictionaryOpen={setDictionaryOpen}/>
+            <Close closeFunction={setDictionaryOpen}/>
         </Heading>
         <WordContainer>
                 {words.map((word, index) => {

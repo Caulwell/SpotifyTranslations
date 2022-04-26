@@ -21,6 +21,16 @@ export default function PlaylistMenu({playlists, handlePlay, handleView}){
         return string.substring(0, 17) + "...";
     }
 
+    const handleClickView = (id) => {
+        handleView(id);
+        setOpen(!open);
+    };
+
+    const handleClickPlay = (id) => {
+        handlePlay(id);
+        setOpen(!open);
+    };
+
 
     return (
         <>
@@ -37,8 +47,8 @@ export default function PlaylistMenu({playlists, handlePlay, handleView}){
                 name={playlist.id}>
                 {playlist.name.length < 20 ? playlist.name : shortenName(playlist.name)}
                 <PlaylistControls>
-                    <List handleView={handleView} id={playlist.id}/>
-                    <Play handlePlay={handlePlay} id={playlist.id}/>
+                    <List name="view" handleView={handleClickView} id={playlist.id}/>
+                    <Play name="play" handlePlay={handleClickPlay} id={playlist.id}/>
                 </PlaylistControls>
                 </Playlist>)}
         </DropDown>

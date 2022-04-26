@@ -38,4 +38,17 @@ background-color: ${props => props.theme.midPrimary};
 export const StyledSearchResults = styled.div`
 display: flex;
 flex-direction: column;
+margin-top: 1rem;
+`;
+
+export const SearchTitle = styled.div`
+    display: flex;
+    background-color: ${props => props.theme.body};
+    z-index: 99; 
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    margin-top: -2rem;
+    font-size: 2rem;
+    position: fixed;
+    width: 71vw;
 `;

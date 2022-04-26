@@ -8,7 +8,8 @@ import LyricsContainer from "../LyricsContainer/LyricsContainer";
 import Header from "../Header/Header";
 import Dictionary from "../Dictionary/Dictionary";
 
-import { StyledDashboard, StyledMain, StyledSearchResults } from "./Dashboard-styles";
+import { StyledDashboard, StyledMain, StyledSearchResults, SearchTitle } from "./Dashboard-styles";
+import Close from "../../icons/Close";
 
 
 const spotifyApi = new SpotifyWebApi({
@@ -148,8 +149,9 @@ export default function Dashboard({code, toggleTheme, isDarkTheme}){
             <Header toggleTheme={toggleTheme} isDarkTheme={isDarkTheme} setSearch={setSearch} search={search} playlists={playlists} handlePlayPlayList={handlePlayPlaylist} handleViewPlayList={handleViewPlaylist}/>
            <StyledMain>
             {/* song selected and lyrics retrieved from server and shown */}
-            {searchResults.length === 0 && lyrics ? 
-                <>
+            {searchResults.length === 0 ? 
+                lyrics && 
+                    <>
                     <LyricsContainer 
                         lyrics={lyrics} 
                         handleSelectLyric={handleSelectLyric} 
@@ -157,12 +159,15 @@ export default function Dashboard({code, toggleTheme, isDarkTheme}){
                         dictionaryOpen={dictionaryOpen}
                         />
                     { dictionaryOpen && <Dictionary selectedLine={selectedLine} setDictionaryOpen={setDictionaryOpen}/> }
-
                 </>
+                
             : 
+            <>
+            {/* search is active and search results are rendered */}
+            <SearchTitle>Tracks <Close closeFunction={() => {setSearchResults([]); setSearch("")}}/></SearchTitle>
             
-            // search is active and search results are rendered
             <StyledSearchResults>
+           
             {searchResults.map(track => {
                     return (
                         <TrackSearchResult
@@ -174,7 +179,7 @@ export default function Dashboard({code, toggleTheme, isDarkTheme}){
                 })}
             </StyledSearchResults>
 
-
+            </>
             }
             
             </StyledMain>
