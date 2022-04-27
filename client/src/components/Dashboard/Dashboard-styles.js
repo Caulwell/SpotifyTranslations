@@ -48,19 +48,19 @@ export const ArrowContainer = styled.div`
 `;
 
 export const StyledSearchResults = styled.div`
-display: flex;
-flex-direction: column;
-margin-top: 3rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-top: 3rem;
 `;
 
 export const SearchTitle = styled.div`
     display: flex;
     background-color: ${props => props.theme.body};
-    z-index: 99; 
+    z-index: 50; 
     justify-content: space-between;
-    margin:-2rem 2rem 0 0;
+    margin:-1rem 2rem 0 0;
     padding: 0 0 2rem 0;
     font-size: 2rem;
     position: fixed;
-    width: 68vw;
+    width: 85vw;
 `;

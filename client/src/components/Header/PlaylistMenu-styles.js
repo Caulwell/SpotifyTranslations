@@ -63,9 +63,9 @@ export const  PlaylistControls = styled.div`
 `;
 
 export const  PlaylistControl = styled.svg`
-    fill: ${props => props.theme.text};
+    color: ${props => props.theme.text};
     cursor: pointer;
     &:hover{
-        fill:${props => props.theme.flair};
+        color:${props => props.theme.flair};
     }
 `;

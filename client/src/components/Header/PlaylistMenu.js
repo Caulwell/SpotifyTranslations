@@ -48,7 +48,7 @@ export default function PlaylistMenu({playlists, handlePlay, handleView}){
                 {playlist.name.length < 20 ? playlist.name : shortenName(playlist.name)}
                 <PlaylistControls>
                     <List name="view" handleView={handleClickView} id={playlist.id}/>
-                    <Play name="play" handlePlay={handleClickPlay} id={playlist.id}/>
+                    <Play name="play" handlePlay={handleClickPlay} id={playlist.id} size="28"/>
                 </PlaylistControls>
                 </Playlist>)}
         </DropDown>

@@ -1,15 +1,15 @@
 import { PlaylistControl } from "../components/Header/PlaylistMenu-styles";
 
 
-export default function Play({handlePlay, id}){
+export default function Play({handlePlay, id, size}){
 
     return (
 
 
         <PlaylistControl
             onClick={() => handlePlay(id)}
-            width="28"
-            height="28"
+            width={size}
+            height={size}
             viewBox="0 0 24 24"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"

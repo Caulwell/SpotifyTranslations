@@ -20,7 +20,8 @@ export default function Player({accessToken, trackUri, updateTrack}){
     const styles = {
         bgColor: `${props => props.theme.body}`,
         color: `${props => props.theme.text}`,
-        trackNameColor: `${props => props.theme.text}`,
+        sliderColor: "#e91e63",
+        sliderHandleColor: "#e91e63",
     };
 
     useEffect(() => {

@@ -197,12 +197,13 @@ export default function Dashboard({code, toggleTheme, isDarkTheme}){
             
             <StyledSearchResults>
            
-            {searchResults.map(track => {
+            {searchResults.map((track, index) => {
                     return (
                         <TrackSearchResult
                             track={track}
                             key={track.uri}
                             chooseTrack={chooseTrack}
+                            index={index}
                         />
                     )
                 })}

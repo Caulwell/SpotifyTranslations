@@ -3,14 +3,25 @@ import styled from "styled-components";
 export const StyledTrack = styled.div`
     display: flex;
     align-items: center;
-    padding: 0.4rem;
+    justify-content: space-between;
+    padding: 0 2rem;
     margin: 0 0.3rem 1.5rem 0;
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     transition: 0.3s;
     &:hover{
         box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
         cursor: pointer;
     }
+`;
+
+export const TrackHeader = styled.div`
+    display: flex;
+    align-items: center;
+`;
+
+export const TrackNumber = styled.div`
+    opacity: 0.8;
+    font-size: 1.5rem;
+    margin-right: 1rem;
 `;
 
 export const Image = styled.img`
@@ -21,6 +32,7 @@ export const Image = styled.img`
 
 export const TrackDetails = styled.div`
     display: flex; 
+    align-items: center;
 `;
 
 export const TrackName = styled.h4`
@@ -32,6 +44,7 @@ export const TrackName = styled.h4`
 `;
 
 export const TrackArtist = styled.h5`
+    opacity: 0.8;
     font-size: 1rem;
     font-weight: normal;
     margin: 0;
