@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import SpotifyPlayer from "react-spotify-web-playback";
+import { useTheme } from "styled-components";
 
 export default function Player({accessToken, trackUri, updateTrack}){
 
     const [play, setPlay ] = useState(false);
+    const theme = useTheme();
 
     const callbackCheck = data => {
 
@@ -18,9 +20,14 @@ export default function Player({accessToken, trackUri, updateTrack}){
     };
 
     const styles = {
-        bgColor: `${props => props.theme.body}`,
-        color: `${props => props.theme.text}`,
-        trackNameColor: `${props => props.theme.text}`,
+        bgColor: theme.lighter,
+        color: theme.text,
+        trackNameColor: theme.text,
+        trackArtistColor: theme.text,
+        sliderColor: theme.flair,
+        sliderHandleColor: theme.flair,
+        ativeColor: theme.flair,
+
     };
 
     useEffect(() => {

@@ -46,6 +46,10 @@ export default function Dictionary({selectedLine, setDictionaryOpen}){
         .then(res => {
             setDefinitions(res.data);
         });
+
+        return () => {
+            setDefinitions({});
+        };
     }, [selectedWord]);
 
     
