@@ -16,7 +16,7 @@
 
 ## Demo
 
-![An open source player](https://i.imgur.com/bqx2tOd.gif)
+![An open source player](https://i.imgur.com/LUHWbv7.gif)
 
 ## Tech Stack
 
