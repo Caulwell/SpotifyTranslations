@@ -9,7 +9,7 @@ export default function TrackSearchResult({track, chooseTrack, index}){
 
     return (
         <StyledTrack onClick={handlePlay}>
-           
+
             <TrackDetails>
                 <TrackNumber>{index+1}</TrackNumber>
                 <Image src={track.albumUrl} />   
